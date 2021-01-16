@@ -2,24 +2,44 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import Container from "../Container";
+import Comments from "components/Comments";
 import PageLoader from "..PageLoader";
 import tasksApi from "../../apis/tasks";
+import commentsApi from "../../apis/comments";
 
 const ShowTask = () => {
   const { id } = useParams();
   const [taskDetails, setTaskDetails] = useState([]);
   const [assignedUser, setAssignedUser] = useState([]);
   const [pageLoading, setPageLoading] = useState(true);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
   const fetchTaskDetails = async () => {
     try {
       const response = await tasksApi.show(id);
       setTaskDetails(response.data.task);
       setAssignedUser(response.data.assigned_user);
+      setComments(response.data.comments);
     } catch (error) {
       // logger.error(error);
     } finally {
       setPageLoading(false);
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      setLoading(true);
+      await commentsApi.create({
+        comment: { content: newComment, task_id: id },
+      });
+      await fetchTaskDetails();
+      setLoading(false);
+    } catch (error) {
+      logger.error(error);
+      setLoading(false);
     }
   };
 
@@ -41,6 +61,12 @@ const ShowTask = () => {
         <span className="text-gray-600">Assigned To : </span>
         {assignedUser?.name}
       </h2>
+      <Comments
+        comments={comments}
+        setNewComment={setNewComment}
+        handleSubmit={handleSubmit}
+        loading={loading}
+      />
     </Container>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { isNil, isEmpty, either } from "ramda";
+import { all, isNil, isEmpty, either } from "ramda";
 
 import Container from "../Container";
 import ListTasks from "../Tasks/ListTasks";
@@ -7,13 +7,15 @@ import PageLoader from "../PageLoader";
 import tasksApi from "../../apis/tasks";
 
 const Dashboard = ({ history }) => {
+  const [pendingTasks, setPendingTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const fetchTasks = async () => {
     try {
       const response = await tasksApi.list();
-      console.log(response);
-      setTasks(response.data.tasks);
+      setPendingTasks(pending);
+      setCompletedTasks(completed);
       setLoading(false);
     } catch (error) {
       //   logger.error(error);
@@ -29,12 +31,40 @@ const Dashboard = ({ history }) => {
     history.push(`/tasks/${id}/edit`);
   };
 
-  const destroyTask = async id => {
+  const destroyTask = async (id) => {
     try {
       await tasksAPI.destroy(id);
       await fetchTasks();
     } catch (error) {
+      // logger.error(error);
+    }
+  };
+
+  const handleProgressToggle = async ({ id, progress }) => {
+    try {
+      setLoading(true);
+      await tasksApi.update({ id, payload: { task: { progress } } });
+      await fetchTasks();
+    } catch (error) {
       logger.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const starTask = async (id, status) => {
+    try {
+      setLoading(true);
+      const toggledStatus = status === "starred" ? "unstarred" : "starred";
+      await tasksApi.update({
+        id,
+        payload: { task: { status: toggledStatus } },
+      });
+      await fetchTasks();
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,7 +80,7 @@ const Dashboard = ({ history }) => {
     );
   }
 
-  if (either(isNil, isEmpty)(tasks)) {
+  if (all(either(isNil, isEmpty), [pendingTasks, completedTasks])) {
     return (
       <Container>
         <h1 className="text-xl leading-5 text-center">
@@ -62,7 +92,23 @@ const Dashboard = ({ history }) => {
 
   return (
     <Container>
-      <ListTasks data={tasks} showTask={showTask} updateTask={updateTask} destroyTask={destroyTask} />
+      {!either(isNil, isEmpty)(pendingTasks) && (
+        <Table
+          data={pendingTasks}
+          destroyTask={destroyTask}
+          showTask={showTask}
+          handleProgressToggle={handleProgressToggle}
+          starTask={starTask}
+        />
+      )}
+      {!either(isNil, isEmpty)(completedTasks) && (
+        <Table
+          type="completed"
+          data={completedTasks}
+          destroyTask={destroyTask}
+          handleProgressToggle={handleProgressToggle}
+        />
+      )}
     </Container>
   );
 };
