@@ -10,7 +10,7 @@ const Table = ({ data, destroyTask, updateTask }) => {
           <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
               <TableHeader />
-              <TableRow data={data} />
+              <TableRow data={data} showTask={showTask} />
             </table>
           </div>
         </div>

@@ -6,7 +6,7 @@ import ListTasks from "../Tasks/ListTasks";
 import PageLoader from "../PageLoader";
 import tasksApi from "../../apis/tasks";
 
-const Dashboard = ({ _history }) => {
+const Dashboard = ({ history }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const fetchTasks = async () => {
@@ -16,8 +16,25 @@ const Dashboard = ({ _history }) => {
       setTasks(response.data.tasks);
       setLoading(false);
     } catch (error) {
-    //   logger.error(error);
+      //   logger.error(error);
       setLoading(false);
+    }
+  };
+
+  const showTask = (id) => {
+    history.push(`/tasks/${id}/show`);
+  };
+
+  const updateTask = (id) => {
+    history.push(`/tasks/${id}/edit`);
+  };
+
+  const destroyTask = async id => {
+    try {
+      await tasksAPI.destroy(id);
+      await fetchTasks();
+    } catch (error) {
+      logger.error(error);
     }
   };
 
@@ -33,19 +50,19 @@ const Dashboard = ({ _history }) => {
     );
   }
 
-  if (!either(isNil, isEmpty)(tasks)) {
+  if (either(isNil, isEmpty)(tasks)) {
     return (
       <Container>
-        <ListTasks data={tasks} />
+        <h1 className="text-xl leading-5 text-center">
+          You have no tasks assigned 😔
+        </h1>
       </Container>
     );
   }
 
   return (
     <Container>
-      <h1 className="text-xl leading-5 text-center">
-        You have no tasks assigned 😔
-      </h1>
+      <ListTasks data={tasks} showTask={showTask} updateTask={updateTask} destroyTask={destroyTask} />
     </Container>
   );
 };

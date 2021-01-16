@@ -1,31 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useState } from "react";
+
 import Container from "../Container";
+import PageLoader from "../PageLoader";
 import TaskForm from "./Form/TaskForm";
 import tasksApi from "../../apis/tasks";
+import usersApi from "../../apis/usersi";
 
 const CreateTask = ({ history }) => {
-  const [title, setTitle] = useState("");    
-  const [loading, setLoading] = useState(false);  
+  const [title, setTitle] = useState("");
+  const [userId, setUserId] = useState("");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       setLoading(true);
-      await tasksApi.create({ task: { title } });
+      await tasksApi.create({ task: { title, user_id: userId } });
       setLoading(false);
       history.push("/dashboard");
     } catch (error) {
-    //   logger.error(error);
+      // logger.error(error);
       setLoading(false);
     }
   };
 
+  const fetchUserDetails = async () => {
+    try {
+      const response = await usersApi.list();
+      setUsers(response.data.users);
+      setUserId(response.data.users[0].id);
+      setPageLoading(false);
+    } catch (error) {
+      // logger.error(error);
+      setPageLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
+
+  if (pageLoading) {
+    return <PageLoader />;
+  }
+
   return (
     <Container>
       <TaskForm
-        setTitle={setTitle}                
+        setTitle={setTitle}
+        setUserId={setUserId}
+        assignedUser={users[0]}
         loading={loading}
-        handleSubmit={handleSubmit}        
+        handleSubmit={handleSubmit}
+        users={users}
       />
     </Container>
   );
