@@ -2,18 +2,20 @@ import React, { useState, useEffect } from "react";
 import { all, isNil, isEmpty, either } from "ramda";
 
 import Container from "../Container";
-import ListTasks from "../Tasks/ListTasks";
+// import ListTasks from "../Tasks/ListTasks";
 import PageLoader from "../PageLoader";
 import tasksApi from "../../apis/tasks";
 
 const Dashboard = ({ history }) => {
   const [pendingTasks, setPendingTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
-  const [tasks, setTasks] = useState([]);
+  // const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const fetchTasks = async () => {
     try {
       const response = await tasksApi.list();
+      const { pending, completed } = response.data.tasks;
       setPendingTasks(pending);
       setCompletedTasks(completed);
       setLoading(false);

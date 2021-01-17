@@ -13,7 +13,7 @@ const LoginForm = ({ handleSubmit, setEmail, setPassword, loading }) => {
         </h2>
         <div className="text-center">
           <Link
-            to="/sign-up"
+            to="/signup"
             className="mt-2 text-sm font-medium text-indigo-600 transition duration-150 ease-in-out hover:text-indigo-500 focus:outline-none focus:underline"
           >
             Or Register Now

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import Container from "../Container";
-import Comments from "components/Comments";
-import PageLoader from "..PageLoader";
+import Comments from "../Comments/index";
+import PageLoader from "../PageLoader";
 import tasksApi from "../../apis/tasks";
 import commentsApi from "../../apis/comments";
 

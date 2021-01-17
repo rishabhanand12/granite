@@ -1,21 +1,22 @@
 import axios from "axios";
 
-const list = () => axios.get('/tasks');
+const list = async () => await axios.get("/tasks");
 
-const show = id => axios.get(`/tasks/${id}`);
+const show = async (id) => await axios.get(`/tasks/${id}`);
 
-const create = payload => axios.post('/tasks/', payload);
+const create = async (payload) => await axios.post("/tasks/", payload);
 
-const update = ({ id, payload }) => axios.put(`/tasks/${id}`, payload);
+const update = async ({ id, payload }) =>
+  await axios.put(`/tasks/${id}`, payload);
 
-const destroy = id => axios.delete(`/tasks/${id}`);
+const destroy = async (id) => await axios.delete(`/tasks/${id}`);
 
 const tasksApi = {
-  list,  
+  list,
   show,
-  create,  
+  create,
   update,
-  destroy
+  destroy,
 };
 
 export default tasksApi;

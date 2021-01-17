@@ -19,7 +19,7 @@ const SignupForm = ({
         </h2>
         <div className="text-center">
           <Link
-            to="/"
+            to="/login"
             className="mt-2 text-sm font-medium text-center text-indigo-600 transition duration-150 ease-in-out hover:text-indigo-500 focus:outline-none focus:underline"
           >
             Or Login Now

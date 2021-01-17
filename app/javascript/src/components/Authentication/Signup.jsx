@@ -26,7 +26,7 @@ const Signup = ({ history }) => {
       history.push("/");
     } catch (error) {
       setLoading(false);
-      logger.error(error);
+      // logger.error(error);
     }
   };
   return (
