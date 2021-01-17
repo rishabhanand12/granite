@@ -43,7 +43,9 @@ const resetAuthTokens = () => {
 //   );
 // };
 
-export default axiosApi = {
+const axiosApi = {
   resetAuthTokens,
   getAuthHeaders,
 };
+
+export default axiosApi;

@@ -83,6 +83,7 @@ const Dashboard = ({ history }) => {
   }
 
   if (all(either(isNil, isEmpty), [pendingTasks, completedTasks])) {
+    console.log("called")
     return (
       <Container>
         <h1 className="text-xl leading-5 text-center">

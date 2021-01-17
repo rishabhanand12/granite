@@ -1,5 +1,5 @@
 import axios from "axios";
-import getAuthHeaders from "./axios";
+import { getAuthHeaders } from "./axios";
 
 const list = async () =>
   await axios.get("/tasks", { headers: getAuthHeaders() });
