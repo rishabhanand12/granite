@@ -15,6 +15,7 @@ const Dashboard = ({ history }) => {
   const fetchTasks = async () => {
     try {
       const response = await tasksApi.list();
+      console.log("called");
       const { pending, completed } = response.data.tasks;
       setPendingTasks(pending);
       setCompletedTasks(completed);
@@ -83,7 +84,6 @@ const Dashboard = ({ history }) => {
   }
 
   if (all(either(isNil, isEmpty), [pendingTasks, completedTasks])) {
-    console.log("called")
     return (
       <Container>
         <h1 className="text-xl leading-5 text-center">
