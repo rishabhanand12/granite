@@ -109,6 +109,7 @@ const Dashboard = ({ history }) => {
           data={completedTasks}
           destroyTask={destroyTask}
           handleProgressToggle={handleProgressToggle}
+          starTask={starTask}
         />
       )}
     </Container>

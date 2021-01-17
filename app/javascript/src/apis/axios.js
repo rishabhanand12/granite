@@ -1,3 +1,4 @@
+import getFromLocalStorage from "../helpers/storage";
 // const handleSuccessResponse = (response) => {
 //   if (response) {
 //     response.success = response.status === 200;
@@ -24,8 +25,14 @@
 //   }
 //   return Promise.reject(error);
 // };
+const getAuthHeaders = () => {
+  return {
+    "X-Auth-Email": getFromLocalStorage("authEmail"),
+    "X-Auth_Token": getFromLocalStorage("authToken"),
+  };
+};
 
-export const resetAuthTokens = () => {
+const resetAuthTokens = () => {
   delete axios.defaults.headers["X-Auth-Email"];
   delete axios.defaults.headers["X-Auth-Token"];
 };
@@ -35,3 +42,8 @@ export const resetAuthTokens = () => {
 //     handleErrorResponse(error)
 //   );
 // };
+
+export default axiosApi = {
+  resetAuthTokens,
+  getAuthHeaders,
+};
