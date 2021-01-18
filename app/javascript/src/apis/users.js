@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const list = () => axios.get("/users");
+const list = async () => await axios.get("/users");
 
 const usersApi = {
   list,

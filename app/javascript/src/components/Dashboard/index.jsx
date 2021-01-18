@@ -5,6 +5,7 @@ import Container from "../Container";
 // import ListTasks from "../Tasks/ListTasks";
 import PageLoader from "../PageLoader";
 import tasksApi from "../../apis/tasks";
+import Table from '../Tasks/Table/index'
 
 const Dashboard = ({ history }) => {
   const [pendingTasks, setPendingTasks] = useState([]);
@@ -21,7 +22,7 @@ const Dashboard = ({ history }) => {
       setCompletedTasks(completed);
       setLoading(false);
     } catch (error) {
-      //   logger.error(error);
+      // logger.error(error);
       setLoading(false);
     }
   };

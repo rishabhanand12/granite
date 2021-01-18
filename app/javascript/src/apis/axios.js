@@ -1,4 +1,6 @@
 import { getFromLocalStorage } from "../helpers/storage";
+import axios from "axios";
+
 // const handleSuccessResponse = (response) => {
 //   if (response) {
 //     response.success = response.status === 200;
@@ -25,17 +27,6 @@ import { getFromLocalStorage } from "../helpers/storage";
 //   }
 //   return Promise.reject(error);
 // };
-export const getAuthHeaders = () => {
-  return {
-    "X-Auth-Email": getFromLocalStorage("authEmail"),
-    "X-Auth_Token": getFromLocalStorage("authToken"),
-  };
-};
-
-export const resetAuthTokens = () => {
-  delete axios.defaults.headers["X-Auth-Email"];
-  delete axios.defaults.headers["X-Auth-Token"];
-};
 
 // export const registerIntercepts = () => {
 //   axios.interceptors.response.use(handleSuccessResponse, (error) =>
@@ -43,9 +34,16 @@ export const resetAuthTokens = () => {
 //   );
 // };
 
-// const axiosApi = {
-//   resetAuthTokens,
-//   getAuthHeaders,
-// };
+export const setAuthHeaders = () => {
+  axios.defaults.headers["X-Auth-Email"] = getFromLocalStorage(
+    "authEmail"
+  );
+  axios.defaults.headers["X-Auth-Token"] = getFromLocalStorage(
+    "authToken"
+  );
+};
 
-// export default axiosApi;
+export const resetAuthTokens = () => {
+  delete axios.defaults.headers["X-Auth-Email"];
+  delete axios.defaults.headers["X-Auth-Token"];
+};

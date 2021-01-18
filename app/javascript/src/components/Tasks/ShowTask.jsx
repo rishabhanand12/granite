@@ -11,6 +11,7 @@ const ShowTask = () => {
   const { id } = useParams();
   const [taskDetails, setTaskDetails] = useState([]);
   const [assignedUser, setAssignedUser] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -38,7 +39,7 @@ const ShowTask = () => {
       await fetchTaskDetails();
       setLoading(false);
     } catch (error) {
-      logger.error(error);
+      // logger.error(error);
       setLoading(false);
     }
   };

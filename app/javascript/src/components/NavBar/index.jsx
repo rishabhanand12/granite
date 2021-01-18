@@ -11,9 +11,11 @@ const NavBar = () => {
       await authApi.logout();
       setToLocalStorage({ authToken: null, email: null, userId: null });
       resetAuthTokens();
+      console.log("here")
+      console.log(window.location)
       window.location.href = "/";
     } catch (error) {
-      logger.error(error);
+      // logger.error(error);
     }
   };
   return (
