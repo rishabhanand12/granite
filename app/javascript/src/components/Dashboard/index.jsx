@@ -50,7 +50,7 @@ const Dashboard = ({ history }) => {
       await tasksApi.update({ id, payload: { task: { progress } } });
       await fetchTasks();
     } catch (error) {
-      logger.error(error);
+      // logger.error(error);
     } finally {
       setLoading(false);
     }
@@ -66,7 +66,7 @@ const Dashboard = ({ history }) => {
       });
       await fetchTasks();
     } catch (error) {
-      logger.error(error);
+      // logger.error(error);
     } finally {
       setLoading(false);
     }
