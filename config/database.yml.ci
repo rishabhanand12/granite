@@ -1,14 +1,18 @@
 default: &default
-  adapter: postgresql
+  adapter: sqlite3
   host: 127.0.0.1
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 10 } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
 
 development:
   <<: *default
-  database: granite_development
+  database: db/development.sqlite3
 
 test:
   <<: *default
-  user: postgres
   database: granite_test<%= ENV['CIRCLE_NODE_INDEX'] %>
+
+production:
+  <<: *default
+  database: db/production.sqlite3
